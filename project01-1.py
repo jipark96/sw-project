@@ -1,7 +1,7 @@
 import pandas as pd
 from pandas import DataFrame
 
-df = pd.read_excel("/Users/edaumedo1/Desktop/22년 1학기 강의목록 원본/경희대학교 국제캠퍼스22년 1학기 강의목록.xlsx")
+df = pd.read_excel("./22년1학기강의데이터/경희대학교 국제캠퍼스22년 1학기 강의목록.xlsx")
 df['대학교명']=input('대학교명:')
 df['캠퍼스명']=input('캠퍼스명:')
 df['강의실']='NaN'
@@ -35,7 +35,7 @@ df = df[['대학교명', '캠퍼스명', '강의고유번호', '강의명', '교
 #         대학교명 -- 캠퍼스명 -- 강의고유번호 -- 강의명 -- 교수명 -- 학년 -- 학점 -- 이수구분 -- 강의시간 -- 강의실 -- 특이사항
 print(df)
 
-writer = pd.ExcelWriter('/Users/edaumedo1/Desktop/22년 1학기 강의목록 1차 가공/경희대학교 국제캠퍼스22년 1학기 강의목록.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter('1차_가공/경희대학교 국제캠퍼스22년 1학기 강의목록.xlsx', engine='xlsxwriter')
 
 ## DataFrame을 xlsx에 쓰기
 df.to_excel(writer, sheet_name='Sheet1')
