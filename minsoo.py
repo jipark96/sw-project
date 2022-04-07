@@ -27,3 +27,7 @@ def professorName():
     df['교수명'] = df['교수명'].str.replace(pat=' ,', repl=',', regex=False)
     df['교수명'] = df['교수명'].str.replace(pat='담당교수미정', repl='', regex=False)
     return df
+
+# 한국과학기술원 과목구분, 과정구분 삭제 함수
+def subjectAndCourse():
+    df = df.drop(df[df['과목구분'] == '개별연구'].index | df[df['과목구분'] == '선택(석/박사)'].index | df[df['과목구분'] == '졸업연구'].index | df[df['과목구분'] == '현장실습및연구'].index | df[df['과정구분'] == '석/박사과정'].index)
