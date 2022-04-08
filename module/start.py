@@ -4,7 +4,8 @@ from public_module import readExcel, readFolderPath, writeExcel
 filtering_dic={
   "lecture_number_list": ['학수번호', '과목번호', '학정번호', '강좌코드'],
   "lecture_name_list": ['과목명', '강좌명'],
-  "professor_name_list": ['교강사명', '교수'],
+  "professor_name_list": ['교강사', '교수'],
+  "grade_list":["학년"],
   "credit_list": ['학점'],
   "division_list": ['구분', '종별'],
   "lecture_time_list": ['시간'],
@@ -17,6 +18,5 @@ filtering_dic={
 file_list = readFolderPath()
 # 원본엑셀에 대해 10개의 dataframe 리스트 가져오기    
 list = readExcel(file_list, filtering_dic)
-print(list[0])
-# for df in list:
-  # writeExcel(df)
+for df in list:
+  writeExcel(df)
