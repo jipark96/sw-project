@@ -1,9 +1,9 @@
 import pandas as pd
 import re
 
-df = pd.read_excel("22년1학기강의데이터/경희대학교 국제캠퍼스22년 1학기 강의목록.xlsx")
+df = pd.read_excel("22년1학기강의데이터/경희대학교 서울캠퍼스 22년 1학기 강의목록.xlsx")
 df['대학교명']='경희대'
-df['캠퍼스명']='국제캠퍼스'
+df['캠퍼스명']='서울캠퍼스'
 df['강의실']='NaN'
 df = df.rename(
         columns={
@@ -34,7 +34,7 @@ df = df[['대학교명', '캠퍼스명', '강의고유번호', '강의명', '교
 print(df)
 
 
-writer = pd.ExcelWriter('1차_가공/경희대학교 국제캠퍼스22년 1학기 강의목록.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter('1차_가공/경희대학교 서울캠퍼스22년 1학기 강의목록.xlsx', engine='xlsxwriter')
 
 # ## DataFrame을 xlsx에 쓰기
 df.to_excel(writer, sheet_name='Sheet1')
