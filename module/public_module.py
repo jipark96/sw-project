@@ -9,12 +9,70 @@ def readFolderPath():
   return file_list
 
 # 파일 이름이 모여있는 file_list 리스트를 인자로 넣으면 dataframe를 값으로 가지는 리스트가 만들어진다.
-def readExcel(file_list):
+def readExcel(file_list, filtering_dic):
   univ_list = []
-  for el in file_list:
-    university = pd.read_excel(io=f"./input/{el}", )
+  for i, el in enumerate(file_list):
+    university_info_list = file_list[i].split(' ')[0:2]
+    university_name = university_info_list[0]
+    university_cname = university_info_list[1]
+    
+    university = pd.read_excel(io=f"./input/{el}")
+    column_dic = {}
+    # linkedStr = ','.join(university.columns.to_list())
+    university['대학교명'] = university_name
+    
+    if "년" in university_cname:
+      if "캠퍼스" in university_cname:
+        campus_str = university_cname.split('캠퍼스')[0]
+        university['캠퍼스명'] = f'{campus_str}캠퍼스'
+      else:  
+        university['캠퍼스명'] = ''
+    else:
+      university['캠퍼스명'] = university_cname
+      
+    for col in filtering_dic['lecture_number_list']:
+      for data in university.columns.to_list():
+        if col in data:
+          column_dic[data] = '강의고유번호'
+    for col in filtering_dic['lecture_name_list']:
+      for data in university.columns.to_list():
+        if col in data:
+          column_dic[data] = '강의명'
+    for col in filtering_dic['professor_name_list']:
+      for data in university.columns.to_list():
+        if col in data:
+          column_dic[data] = '교수명'
+    for col in filtering_dic['credit_list']:
+      for data in university.columns.to_list():
+        if col in data:
+          column_dic[data] = '학년'
+    for col in filtering_dic['division_list']:
+      for data in university.columns.to_list():
+        if col in data:
+          column_dic[data] = '학점'
+    for col in filtering_dic['lecture_time_list']:
+      for data in university.columns.to_list():
+        if col in data:
+          column_dic[data] = '이수구분'
+    for col in filtering_dic['lecture_room_list']:
+      for data in university.columns.to_list():
+        if col in data:
+          column_dic[data] = '강의시간'
+    for col in filtering_dic['significant_list']:
+      for data in university.columns.to_list():
+        if col in data:
+          column_dic[data] = '특이사항'
+    
+    print(column_dic.keys())
+    university = university.rename(
+      columns=column_dic
+    )
+    # university.columns.difference()
     univ_list.append(university)
+
   return univ_list
+
+
 
 # 파일 쓰기
 def writeExcel(univ):
@@ -30,18 +88,3 @@ def writeExcel(univ):
     writer.close()
 
     
-    
-    
-    
-    
-    
-    
-    
-    # university_campus = university_info_list[1]
-    # if "캠퍼스" in university_campus and not"년" in university_campus:
-    #   print(university_campus)
-    # for el in file_list:
-    #     university_info_list = el.split(' ')[0:3]
-    #     if not"년" in university_info_list:
-    #       continue
-    #   file_list.insert(0, )
