@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import re
 
 # 22년1학기강의데이터 폴더에 파일을 넣으면 자동적으로 되게끔한다.
 def readFolderPath():
@@ -10,6 +11,8 @@ def readFolderPath():
 # 파일 이름이 모여있는 file_list 리스트를 인자로 넣으면 dataframe를 값으로 가지는 리스트가 만들어진다.
 def readExcel(file_list, filtering_dic):
   univ_list = []
+  p = re.compile('[월화수목금토일](?:\s\d{2}:\d{2}-\d{2}:\d{2}|\((?:\d{1}|(?:\d{1}|\d{2})-(?:\d{1}|\d{2}))\))') #정규표현식 완료 : 경희대, 고려대
+
   for i, el in enumerate(file_list):
     university_info_list = file_list[i].split(' ')[0:2]
     university_name = university_info_list[0]
@@ -26,6 +29,7 @@ def readExcel(file_list, filtering_dic):
         df['캠퍼스명'] = f'{campus_str}캠퍼스'
         university['캠퍼스명'] = f'{campus_str}캠퍼스'
       else:  
+        campus_str = university_cname.split('캠퍼스')[0]
         df['캠퍼스명'] = f'{campus_str}캠퍼스'
         university['캠퍼스명'] = ''
     else:
@@ -58,12 +62,30 @@ def readExcel(file_list, filtering_dic):
           df["이수구분"] = university[data]
     for col in filtering_dic['lecture_time_list']:
       for data in university.columns.to_list():
-        if col in data:
-          df["강의시간"] = university[data]
+            # print(lt)
+            # print(len(university[data]))
+            # print(university[data][0])
+        for i in range(0,university[data].size):
+          if col in data:
+##########################    
+            lt = str(university[data][i])
+            print(i, lt,'###',''.join(p.findall(lt)))
+            df["강의시간"] = ''.join(p.findall(lt))
+            # print(df['강의시간'])
+          #df["강의시간"] = university[data]
+    # for t in range(0, len(df)):
+    #     ct = str(df['강의시간'][t])
+    #     df['강의시간'][t] = ''.join(p.findall(str(df['강의시간'][t])))  #강의시간 추출하여 입력          
+##########################          
     for col in filtering_dic['lecture_room_list']:
       for data in university.columns.to_list():
         if col in data:
-          df["강의실"] = university[data]
+              
+##########################
+          df["강의실"] = re.sub(p, '', lt)
+          #df["강의실"] = university[data]
+##########################
+
     for col in filtering_dic['significant_list']:
       for data in university.columns.to_list():
         if col in data:
@@ -84,5 +106,6 @@ def writeExcel(univ):
 
     ## Pandas writer 객체 닫기
     writer.close()
+    
 
     
