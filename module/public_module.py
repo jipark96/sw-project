@@ -18,23 +18,23 @@ def readExcel(file_list, filtering_dic):
     university_name = university_info_list[0]
     university_cname = university_info_list[1]
     
-    university = pd.read_excel(io=f"./input/{el}")
+    university = pd.read_excel(io=f"./input/{el}", engine='openpyxl')
     df = pd.DataFrame(data = [[university_name]], columns=["대학교명"], index=university.index)
     
-    university['대학교명'] = university_name
+    # university['대학교명'] = university_name
     
     if "년" in university_cname:
       if "캠퍼스" in university_cname:
         campus_str = university_cname.split('캠퍼스')[0]
         df['캠퍼스명'] = f'{campus_str}캠퍼스'
-        university['캠퍼스명'] = f'{campus_str}캠퍼스'
+        # university['캠퍼스명'] = f'{campus_str}캠퍼스'
       else:  
         campus_str = university_cname.split('캠퍼스')[0]
         df['캠퍼스명'] = f'{campus_str}캠퍼스'
-        university['캠퍼스명'] = ''
+        # university['캠퍼스명'] = ''
     else:
       df['캠퍼스명'] = university_cname
-      university['캠퍼스명'] = university_cname
+      # university['캠퍼스명'] = university_cname
       
     for col in filtering_dic['lecture_number_list']:
       for data in university.columns.to_list():
