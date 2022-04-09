@@ -22,3 +22,8 @@ def dropTheBeat(df):
 def dropDup(df):
     df = df.drop_duplicates(['강의고유번호', '강의명', '교수명'])
     return df
+
+# 2차 2번 (분반제거)
+def killDistri(df):
+    df['강의고유번호'] = df['강의고유번호'].str.slice(start=0, stop=6)
+    return df
