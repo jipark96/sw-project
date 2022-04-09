@@ -1,21 +1,22 @@
 from public_module import readExcel, readFolderPath, writeExcel
 
+# 필터링할 데이터 정하기
+filtering_dic={
+  "lecture_number_list": ['학수번호', '과목번호', '학정번호', '강좌코드'],
+  "lecture_name_list": ['과목명', '강좌명'],
+  "professor_name_list": ['교강사', '교수'],
+  "grade_list":["학년"],
+  "credit_list": ['학점'],
+  "division_list": ['구분', '종별'],
+  "lecture_time_list": ['시간'],
+  "lecture_room_list": ['강의실'],
+  "significant_list": ['특이사항', '유의사항', '비고'],
+}
+
+
 # 원본엑셀에 대한 제목들 가지고오기
 file_list = readFolderPath()
 # 원본엑셀에 대해 10개의 dataframe 리스트 가져오기    
-list = readExcel(file_list)
-
-# 이 반복문부터는 학교마다 달리 해야한다.
-for i, df in enumerate(list):
-  university_info_list = file_list[i].split(' ')[0:2]
-  university_name = university_info_list[0]
-  university_cname = university_info_list[1]
-  df['대학교명'] = university_name
-
-  if "년" in university_cname:
-    df['캠퍼스명'] = ''
-  else:
-    df['캠퍼스명'] = university_cname
-  
-  # 파일 쓸 때 사용하는 함수. 주로 종료할 때 사용한다.
+list = readExcel(file_list, filtering_dic)
+for df in list:
   writeExcel(df)
