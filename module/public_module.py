@@ -15,7 +15,7 @@ def readExcel(file_list, filtering_dic):
     university_name = university_info_list[0]
     university_cname = university_info_list[1]
     
-    university = pd.read_excel(io=f"./input/{el}")
+    university = pd.read_excel(io=f"./input/{el}", engine='openpyxl')
     df = pd.DataFrame(data = [[university_name]], columns=["대학교명"], index=university.index)
     
     # university['대학교명'] = university_name
