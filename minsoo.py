@@ -10,7 +10,7 @@ def lectureNumber():
     return df
 
 # 경희대 교수명 수정 함수
-def professorName():
+def KhuProfessorName():
     df['교수명'] = df['교수명'].str.replace(pat=' / ..', repl='', regex=False)    # 교수명 수정
     df['교수명'] = df['교수명'].str.replace(pat='..', repl='', regex=False)
     df['교수명'] = df['교수명'].str.replace(pat=' / ', repl=',', regex=False)
@@ -22,7 +22,7 @@ def lectureName():
     return df
 
 # 한국과학기술원 교수명 수정 함수
-def professorName():
+def KaistProfessorName():
     df['교수명'] = df['교수명'].str.replace(pat=' 외', repl='', regex=False)    # 교수명 수정
     df['교수명'] = df['교수명'].str.replace(pat=' ,', repl=',', regex=False)
     df['교수명'] = df['교수명'].str.replace(pat='담당교수미정', repl='', regex=False)
