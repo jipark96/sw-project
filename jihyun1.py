@@ -27,3 +27,4 @@ def dropDup(df):
 def killDistri(df):
     df['강의고유번호'] = df['강의고유번호'].str.slice(start=0, stop=6)
     return df
+
