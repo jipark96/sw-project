@@ -1,17 +1,19 @@
 import pandas as pd
 
 # 데이터 프레임 불러오기 (모듈 붙이기)
-df = pd.read_excel("./22년1학기강의데이터/경희대학교 국제캠퍼스22년 1학기 강의목록.xlsx", engine='openpyxl')
+# df = pd.read_excel("./22년1학기강의데이터/경희대학교 국제캠퍼스22년 1학기 강의목록.xlsx", engine='openpyxl')
 
 # 전체 공백 제거 
 # ndf = df.apply(lambda df: df.str.replace(" ",""), axis = 1)
 
 # 교수명 분리
-df = df.fillna("")
+# df = df.fillna("")
 #df명 수정
-professor = df["교수명교수명"]
 
-def spiltProfessor(professor):
+
+def splitProfessor(df):
+    df = df.fillna("")
+    professor = df["교수명"]
     array = []
     for i in range(0, int(professor.size)):
         row = professor.iloc[i]
@@ -28,15 +30,16 @@ def spiltProfessor(professor):
             array.append(row)   
     return array
           
-makeName = spiltProfessor(professor) 
 
-df["교수명교수명"] = makeName
+
 
 # 3번 replace를 활용한 공백 제거
 
 #df["강좌명강좌명"] 수정바람
-classname =  df["강좌명강좌명"]
-def del_blank(classname):
+
+def del_blank(df):
+    df = df.fillna("")
+    classname =  df["강의명"]
     array= []
     for i in range(0, int(classname.size)):
         row = classname.iloc[i]
@@ -45,9 +48,9 @@ def del_blank(classname):
     print(array)
     return(array)
 
-newclass = del_blank(classname)
-df["강좌명강좌명"] = newclass
+  
 
-df.to_excel("professor.xlsx", sheet_name="professor", index=False)
+
+# df.to_excel("professor.xlsx", sheet_name="professor", index=False)
 
 
