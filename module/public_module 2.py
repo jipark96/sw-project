@@ -26,6 +26,7 @@ def readExcel(file_list, filtering_dic):
         df['캠퍼스명'] = f'{campus_str}캠퍼스'
         university['캠퍼스명'] = f'{campus_str}캠퍼스'
       else:  
+        campus_str = university_cname.split('캠퍼스')[0]
         df['캠퍼스명'] = f'{campus_str}캠퍼스'
         university['캠퍼스명'] = ''
     else:
