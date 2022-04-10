@@ -1,5 +1,6 @@
 from public_module import readExcel, readFolderPath, writeExcel
 from first_process_module import splitProfessor, del_blank
+from divide_classinfo import split_time, split_room
 # 필터링할 데이터 정하기
 filtering_dic={
   "lecture_number_list": ['학수번호', '과목번호', '학정번호', '강좌코드'],
@@ -21,8 +22,6 @@ list = readExcel(file_list, filtering_dic)
 for df in list:
   df["교수명"] = splitProfessor(df)
   df["강의명"] = del_blank(df)
+  df["강의실"] = split_room(df)
+  df["강의시간"] = split_time(df)
   writeExcel(df)
-
-  
-  
- 

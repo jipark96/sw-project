@@ -21,7 +21,6 @@ def splitProfessor(df):
             newrow = list(map(lambda row: row.strip(), row.split("/")))
             newrow = ','.join(newrow)
             array.append(newrow)
-                         
         elif " ," in row or ", " in row:
             newrow = list(map(lambda row: row.strip(), row.split(",")))
             newrow = ','.join(newrow)
@@ -29,7 +28,6 @@ def splitProfessor(df):
         else:
             array.append(row)   
     return array
-          
 
 
 
@@ -45,7 +43,6 @@ def del_blank(df):
         row = classname.iloc[i]
         newrow = row.replace(" ","")
         array.append(newrow)
-    print(array)
     return(array)
 
   
