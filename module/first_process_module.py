@@ -45,7 +45,7 @@ def del_blank(df):
         row = classname.iloc[i]
         newrow = row.replace(" ","")
         array.append(newrow)
-    print(array)
+    # print(array)
     return(array)
 
   
