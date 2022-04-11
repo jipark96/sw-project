@@ -14,10 +14,6 @@ filtering_dic={
   "특이사항": ['특이사항', '유의사항', '비고'],
 }
 
-# 카이스트의 예외처리를 위한 딕셔너리 
-# exception_dic={
-#   ""
-# }
 
 Regular_Expression={
   "경희대학교": [
