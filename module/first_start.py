@@ -1,6 +1,8 @@
 # 1차 가공 실행파일
+from re import sub
 from public_module import readExcel, readFolderPath, writeExcel
 from first_process_module import splitProfessor, del_blank, split_time, split_room
+from each_university_module import *
 # 필터링할 데이터 정하기
 filtering_dic={
   "강의고유번호": ['학수번호', '과목번호', '학정번호', '강좌코드'],
