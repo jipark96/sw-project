@@ -1,19 +1,23 @@
+# 1차 가공 실행파일
 from public_module import readExcel, readFolderPath, writeExcel
 from first_process_module import splitProfessor, del_blank, split_time, split_room
-import re
-
 # 필터링할 데이터 정하기
 filtering_dic={
-  "lecture_number_list": ['학수번호', '과목번호', '학정번호', '강좌코드'],
-  "lecture_name_list": ['과목명', '강좌명'],
-  "professor_name_list": ['교강사', '교수'],
-  "grade_list":["학년"],
-  "credit_list": ['학점'],
-  "division_list": ['구분', '종별'],
-  "lecture_time_list": ['시간'],
-  "lecture_room_list": ['강의실'],
-  "significant_list": ['특이사항', '유의사항', '비고'],
+  "강의고유번호": ['학수번호', '과목번호', '학정번호', '강좌코드'],
+  "강의명": ['과목명', '강좌명'],
+  "교수명": ['교강사', '교수'],
+  "학년":["학년"],
+  "학점": ['학점'],
+  "이수구분": ['구분', '종별'],
+  "강의시간": ['시간'],
+  "강의실": ['강의실'],
+  "특이사항": ['특이사항', '유의사항', '비고'],
 }
+
+# 카이스트의 예외처리를 위한 딕셔너리 
+# exception_dic={
+#   ""
+# }
 
 Regular_Expression={
   "경희대학교": [
@@ -29,11 +33,11 @@ Regular_Expression={
     ''
     ], 
   "성균관대학교": [   #강의실 컬럼 X
-    '',
+    '(?:\w|\W)',
     ''
     ], 
   "국민대학교": [    #강의실 컬럼 X
-    '',
+    '(?:\w|\W)',
     ''
     ], 
   "한국과학기술원": [   #분리되어있음
