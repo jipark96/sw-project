@@ -11,8 +11,8 @@ def makeColumn(university, df, col, keyword_list):
         df[col] = university[data]
         isComplte = True
         break
-    if col in df.columns:
-      break
+    # if col in df.columns:
+    #   break
   if isComplte == False:
     df[col] = ""
 
@@ -47,8 +47,7 @@ def readExcel(file_list, filtering_dic):
         campus_str = university_cname.split('캠퍼스')[0]
         df['캠퍼스명'] = f'{campus_str}캠퍼스'
       else:  
-        campus_str = university_cname.split('캠퍼스')[0]
-        df['캠퍼스명'] = f'{campus_str}캠퍼스'
+        df['캠퍼스명'] = ''
     else:
       df['캠퍼스명'] = university_cname
       
@@ -65,8 +64,10 @@ def writeExcel(univ):
     univ_name = univ['대학교명'].to_list()[0]
     univ_cname = univ['캠퍼스명'].to_list()[0]
     # print(univ_name, univ_cname)
-    writer = pd.ExcelWriter(f'./1차_가공/{univ_name} {univ_cname} 22년 1학기 1차 가공 완료.xlsx', engine='xlsxwriter')
-
+    if len(univ_cname) == 0:
+      writer = pd.ExcelWriter(f'./1차_가공/{univ_name} 22년 1학기 1차 가공 완료.xlsx', engine='xlsxwriter')
+    else:
+      writer = pd.ExcelWriter(f'./1차_가공/{univ_name} {univ_cname} 22년 1학기 1차 가공 완료.xlsx', engine='xlsxwriter')
     ## DataFrame을 xlsx에 쓰기
     univ.to_excel(writer, sheet_name='Sheet1')
 

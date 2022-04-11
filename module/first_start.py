@@ -14,6 +14,11 @@ filtering_dic={
   "특이사항": ['특이사항', '유의사항', '비고'],
 }
 
+# 카이스트의 예외처리를 위한 딕셔너리 
+# exception_dic={
+#   ""
+# }
+
 
 # 원본엑셀에 대한 제목들 가지고오기
 file_list = readFolderPath()
