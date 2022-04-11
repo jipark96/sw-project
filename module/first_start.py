@@ -1,6 +1,8 @@
 # 1차 가공 실행파일
+from re import sub
 from public_module import readExcel, readFolderPath, writeExcel
 from first_process_module import splitProfessor, del_blank, split_time, split_room
+from each_university_module import *
 # 필터링할 데이터 정하기
 filtering_dic={
   "강의고유번호": ['학수번호', '과목번호', '학정번호', '강좌코드'],
@@ -55,4 +57,15 @@ for df in list:
   df["강의명"] = del_blank(df)
   df["강의실"] = split_room(df, Regular_Expression)
   df["강의시간"] = split_time(df, Regular_Expression)
+  df = lectureNumber(df)
+  
+  for file_name in file_list:
+    if ('경희대학교' in file_name):
+      df = khuProfessorName(df)
+    elif ('고려대학교' in file_name):
+      df = lectureName(df)
+    elif ('한국과학기술원' in file_name):
+      df = kaistProfessorName(df)
+      df = subjectAndCourse(df)
+
   writeExcel(df)
