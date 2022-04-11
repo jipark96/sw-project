@@ -1,6 +1,5 @@
 from public_module import readExcel, readFolderPath, writeExcel
-from first_process_module import splitProfessor, del_blank
-from divide_classinfo import split_time, split_room
+from first_process_module import splitProfessor, del_blank, split_time, split_room
 import re
 
 # 필터링할 데이터 정하기
@@ -17,16 +16,35 @@ filtering_dic={
 }
 
 Regular_Expression={
-  "경희대": '(?:[월화수목금토일](?:(?:\s|)(?:\d{2}:\d{2}|)-(?:\d{2}:\d{2}|)))',
-  "고려대": '(?:[월화수목금토일]\((?:\d{2}|\d{1})(?:-(?:\d{2}|\d{1})|))\)',
-  "연세대": '', #분리되어있음
-  "성균관대": '', #강의실 컬럼 X
-  "국민대": '', #강의실 컬럼 X
-  "한국과학기술원": '', #분리되어있음
-  "한양대": '', #분리되어있음
+  "경희대학교": [
+    '(?:(?:[월화수목금토일]|)(?:(?:\s|)(?:\d{2}:\d{2}|)-(?:\d{2}:\d{2}|)))',                #추출 정규표현식---[0] / 분리되어 있을 시  '(?:\w|\W)' 입력
+    '(?:(?:(?:[월화수목금토일]|)(?:(?:\s|)(?:\d{2}:\d{2}|)-(?:\d{2}:\d{2}|)))|\(|\))'       #제거 정규표현식---[1] / 분리되어 있을 시  ''          입력
+    ],
+  "고려대학교": [
+    '(?:[월화수목금토일]\((?:\d{2}|\d{1})(?:-(?:\d{2}|\d{1})|))\)',
+    '(?:[월화수목금토일]\((?:\d{2}|\d{1})(?:-(?:\d{2}|\d{1})|))\)'
+    ],
+  "연세대학교": [     #분리되어있음
+    '(?:\w|\W)',
+    ''
+    ], 
+  "성균관대학교": [   #강의실 컬럼 X
+    '',
+    ''
+    ], 
+  "국민대학교": [    #강의실 컬럼 X
+    '',
+    ''
+    ], 
+  "한국과학기술원": [   #분리되어있음
+    '(?:\w|\W)',
+    ''
+    ], 
+  "한양대학교": [     #분리되어있음
+    '(?:\w|\W)',
+    ''
+    ], 
 }
-
-p = re.compile('(?:\/|,|\(|)(?:[월화수목금토일](?:(?:\s|)\d{2}:\d{2}(?:-|~)\d{2}:\d{2}|\s\d{2}:\d{2}|(?:\(|-|)(?:(?:\d{2}|\d{1})-(?:\d{2}|\d{1})|\d{2}:\d{2}-\d{2}:\d{2}|\d{2}|\d{1})(?:\)|)|\d{2}:\d{2}-\d{2}:\d{2}|\d[A-B])|(?:,|\.)(?:\d{2}|\d{1})(?:[A-B]|)|시간미지정강좌|-\s)(?:\)|)') #정규표현식 완료 : 경희대, 고려대
 
 # 원본엑셀에 대한 제목들 가지고오기
 file_list = readFolderPath()
@@ -35,6 +53,6 @@ list = readExcel(file_list, filtering_dic)
 for df in list:
   df["교수명"] = splitProfessor(df)
   df["강의명"] = del_blank(df)
-  df["강의실"] = split_room(df, p)
-  df["강의시간"] = split_time(df, p)
+  df["강의실"] = split_room(df, Regular_Expression)
+  df["강의시간"] = split_time(df, Regular_Expression)
   writeExcel(df)

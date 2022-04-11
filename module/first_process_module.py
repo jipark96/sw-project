@@ -1,4 +1,4 @@
-import pandas as pd
+import re
 
 # 데이터 프레임 불러오기 (모듈 붙이기)
 # df = pd.read_excel("./22년1학기강의데이터/경희대학교 국제캠퍼스22년 1학기 강의목록.xlsx", engine='openpyxl')
@@ -45,7 +45,38 @@ def del_blank(df):
         array.append(newrow)
     return(array)
 
-  
+##########1차 가공 2번##########
+
+#강의시간 추출하여 입력
+def split_time(df, Regular_Expression):
+    array = []
+    classtime = df["강의시간"]
+    df = df.fillna("")
+    univ_name = df['대학교명'].to_list()[0]
+    reg_exp = re.compile(Regular_Expression[univ_name][0])
+    
+    for t in range(0, int(classtime.size)):
+        ct = str(df['강의시간'][t])
+        newrow = ''.join(reg_exp.findall(ct))  #강의시간 추출하여 입력
+        array.append(newrow)
+        
+    return array
+
+#강의시간 추출하여 제거
+def split_room(df, Regular_Expression):
+    array = []
+    classroom = df["강의실"]
+    df = df.fillna("")
+    univ_name = df['대학교명'].to_list()[0]
+    reg_exp = re.compile(''+ Regular_Expression[univ_name][1]+"")
+    
+    for t in range(0, int(classroom.size)):
+        cl = str(df['강의실'][t])
+        newrow = re.sub(reg_exp, '', cl)   #강의시간 제거 후 입력
+        array.append(newrow)     
+        
+    return array
+
 
 
 # df.to_excel("professor.xlsx", sheet_name="professor", index=False)
