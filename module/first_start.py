@@ -55,4 +55,15 @@ for df in list:
   df["강의명"] = del_blank(df)
   df["강의실"] = split_room(df, Regular_Expression)
   df["강의시간"] = split_time(df, Regular_Expression)
+  df = lectureNumber(df)
+  
+  for file_name in file_list:
+    if ('경희대학교' in file_name):
+      df = khuProfessorName(df)
+    elif ('고려대학교' in file_name):
+      df = lectureName(df)
+    elif ('한국과학기술원' in file_name):
+      df = kaistProfessorName(df)
+      df = subjectAndCourse(df)
+
   writeExcel(df)
