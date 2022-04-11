@@ -30,14 +30,34 @@ def readFolderPath():
 # 함수 설명: file_list와 filtering_dic를 인자로 사용하면,
 # 여러 개의 dataframe를 가지는 리스트를 반환한다.
 def readExcel(file_list, filtering_dic):
-  column_name_list = list(filtering_dic.keys())
   univ_list = []
+
+  for file_name in file_list:
+    university_info_list = file_name.split(' ')[0:2]
+    university_name = university_info_list[0]
+
+    if (university_name == '한국과학기술원'):
+      filtering_dic={
+        "과목구분": ['과목구분'],
+        "과정구분": ['과정구분'],
+        "강의고유번호": ['학수번호', '과목번호', '학정번호', '강좌코드'],
+        "강의명": ['과목명', '강좌명'],
+        "교수명": ['교강사', '교수'],
+        "학년":["학년"],
+        "학점": ['학점'],
+        "이수구분": ['구분', '종별'],
+        "강의시간": ['시간'],
+        "강의실": ['강의실'],
+        "특이사항": ['특이사항', '유의사항', '비고'],
+      }
+
+  column_name_list = list(filtering_dic.keys())
   
   for file_name in file_list:
     university_info_list = file_name.split(' ')[0:2]
     university_name = university_info_list[0]
     university_cname = university_info_list[1]
-    
+
     university = pd.read_excel(io=f"./input/{file_name}", engine='openpyxl')
     df = pd.DataFrame(data = [[university_name]], columns=["대학교명"], index=university.index)
     
