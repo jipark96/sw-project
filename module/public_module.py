@@ -1,8 +1,8 @@
+from cmath import nan
 import pandas as pd
 import os
 
 '''중첩 함수'''
-
 def makeColumn(university, df, col, keyword_list):
   isComplte = False
   for keyword in keyword_list:
@@ -20,8 +20,8 @@ def makeColumn(university, df, col, keyword_list):
 
 # 함수 설명: 22년1학기강의데이터 폴더에 파일을 넣으면 자동적으로 되게끔하고,
 # 여러 파일 이름이 담겨진 리스트를 반환한다.
-def readFolderPath():
-  path='./input'
+def readFolderPath(file_name):
+  path=f'./{file_name}'
   file_list = os.listdir(path)
   return file_list
     
@@ -79,15 +79,27 @@ def readExcel(file_list, filtering_dic):
 
   return univ_list
 
+
+def readExcel2(file_list):
+  univ_list = []
+
+  for file_name in file_list:
+    df = pd.read_excel(io=f"./1차_가공/{file_name}", engine='openpyxl', index_col=0)
+    df = df.fillna("")
+    
+    univ_list.append(df)
+
+  return univ_list
+
 # 파일 쓰기
-def writeExcel(univ):
-    univ_name = univ['대학교명'].to_list()[0]
-    univ_cname = univ['캠퍼스명'].to_list()[0]
+def writeExcel(univ, file_name, i):
+    univ_name = univ['대학교명'].to_list()[1]
+    univ_cname = univ['캠퍼스명'].to_list()[1]
     # print(univ_name, univ_cname)
     if len(univ_cname) == 0:
-      writer = pd.ExcelWriter(f'./1차_가공/{univ_name} 22년 1학기 1차 가공 완료.xlsx', engine='xlsxwriter')
+      writer = pd.ExcelWriter(f'./{file_name}/{univ_name} 22년 1학기 {i}차 가공 완료.xlsx', engine='xlsxwriter')
     else:
-      writer = pd.ExcelWriter(f'./1차_가공/{univ_name} {univ_cname} 22년 1학기 1차 가공 완료.xlsx', engine='xlsxwriter')
+      writer = pd.ExcelWriter(f'./{file_name}/{univ_name} {univ_cname} 22년 1학기 {i}차 가공 완료.xlsx', engine='xlsxwriter')
     ## DataFrame을 xlsx에 쓰기
     univ.to_excel(writer, sheet_name='Sheet1')
 
