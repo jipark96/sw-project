@@ -6,7 +6,7 @@ import os
 def makeColumn(university, df, col, keyword_list):
   isComplte = False
   for keyword in keyword_list:
-    for data in university.columns.to_list():
+    for data in university.columns:
       if keyword in data:
         df[col] = university[data]
         isComplte = True
@@ -29,43 +29,20 @@ def readFolderPath(file_name):
 # filtering_dic: 각 컬럼에 대한 필터링 키워드가 담겨져있는 딕셔너리
 # 함수 설명: file_list와 filtering_dic를 인자로 사용하면,
 # 여러 개의 dataframe를 가지는 리스트를 반환한다.
-def readExcel(file_list):
+def readExcel(file_list, filtering_dic):
   univ_list = []  
-
+  
   for file_name in file_list:
     university_info_list = file_name.split(' ')[0:2]
     university_name = university_info_list[0]
     university_cname = university_info_list[1]
 
     if (university_name == '한국과학기술원'):
-      filtering_dic={
-        "과목구분": ['과목구분'],
-        "과정구분": ['과정구분'],
-        "강의고유번호": ['학수번호', '과목번호', '학정번호', '강좌코드'],
-        "강의명": ['과목명', '강좌명'],
-        "교수명": ['교강사', '교수'],
-        "학년":["학년"],
-        "학점": ['학점'],
-        "이수구분": ['구분', '종별'],
-        "강의시간": ['시간'],
-        "강의실": ['강의실'],
-        "특이사항": ['특이사항', '유의사항', '비고'],
-      }
-      column_name_list = list(filtering_dic.keys())
-    else:
-      filtering_dic={
-        "강의고유번호": ['학수번호', '과목번호', '학정번호', '강좌코드'],
-        "강의명": ['과목명', '강좌명'],
-        "교수명": ['교강사', '교수'],
-        "학년":["학년"],
-        "학점": ['학점'],
-        "이수구분": ['구분', '종별'],
-        "강의시간": ['시간'],
-        "강의실": ['강의실'],
-        "특이사항": ['특이사항', '유의사항', '비고'],
-      }
-      column_name_list = list(filtering_dic.keys())
-      
+      filtering_dic["과목구분"] = ["과목구분"]
+      filtering_dic["과정구분"] = ["과정구분"]
+    
+    column_name_list = list(filtering_dic.keys())
+
     university = pd.read_excel(io=f"./input/{file_name}", engine='openpyxl')
     df = pd.DataFrame(data = [[university_name]], columns=["대학교명"], index=university.index)
     
@@ -82,6 +59,10 @@ def readExcel(file_list):
     # df의 컬럼 생성하기
     for col in column_name_list:
       makeColumn(university, df, col, filtering_dic[col])
+      
+    if (university_name == '한국과학기술원'):
+      del filtering_dic["과목구분"]
+      del filtering_dic["과정구분"]
       
     univ_list.append(df)
 
@@ -100,14 +81,14 @@ def readExcel2(file_list):
   return univ_list
 
 # 파일 쓰기
-def writeExcel(univ, file_name, i):
+def writeExcel(univ, file_name, detail):
     univ_name = univ['대학교명'].to_list()[1]
     univ_cname = univ['캠퍼스명'].to_list()[1]
     # print(univ_name, univ_cname)
     if len(univ_cname) == 0:
-      writer = pd.ExcelWriter(f'./{file_name}/{univ_name} 22년 1학기 {i}차 가공 완료.xlsx', engine='xlsxwriter')
+      writer = pd.ExcelWriter(f'./{file_name}/{univ_name} {detail} 가공 완료.xlsx', engine='xlsxwriter')
     else:
-      writer = pd.ExcelWriter(f'./{file_name}/{univ_name} {univ_cname} 22년 1학기 {i}차 가공 완료.xlsx', engine='xlsxwriter')
+      writer = pd.ExcelWriter(f'./{file_name}/{univ_name} {univ_cname} {detail} 가공 완료.xlsx', engine='xlsxwriter')
     ## DataFrame을 xlsx에 쓰기
     univ.to_excel(writer, sheet_name='Sheet1')
 
