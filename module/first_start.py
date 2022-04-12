@@ -49,7 +49,7 @@ Regular_Expression={
 }
 
 # 원본엑셀에 대한 제목들 가지고오기
-file_list = readFolderPath()
+file_list = readFolderPath("input")
 # 원본엑셀에 대해 10개의 dataframe 리스트 가져오기    
 list = readExcel(file_list, filtering_dic)
 for df in list:
@@ -68,4 +68,4 @@ for df in list:
       df = kaistProfessorName(df)
       df = subjectAndCourse(df)
 
-  writeExcel(df)
+  writeExcel(df, "1차_가공", 1)
