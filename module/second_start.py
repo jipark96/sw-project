@@ -1,5 +1,5 @@
 # 2차 가공 실행파일
-from second_process_module import dropTheBeat, killDistri, professorOnlyOne, dropDup
+from second_process_module import dropTimeAndLecture, killDistri, splitProfessorOnlyOne, dropDup
 from public_module import readExcel2, readFolderPath, writeExcel
 
 # 1차 가공 엑셀에 대한 제목들 가지고오기
@@ -8,9 +8,9 @@ file_list = readFolderPath("1차_가공")
 list = readExcel2(file_list)
 for df in list:
 
-  df = dropTheBeat(df)
+  df = dropTimeAndLecture(df)
   df = killDistri(df)
-  df = professorOnlyOne(df)
+  df = splitProfessorOnlyOne(df)
   df = dropDup(df)
 
-  writeExcel(df, "2차_가공", 2)
+  writeExcel(df, "2차_가공", "22년 1학기 2차")
