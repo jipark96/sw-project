@@ -42,7 +42,7 @@ def split_time(df, Regular_Expression):
     
     for t in range(0, int(classtime.size)):
         ct = str(df['강의시간'][t])
-        newrow = ''.join(reg_exp.findall(ct))  #강의시간 추출하여 입력
+        newrow = Regular_Expression[univ_name][2].join(reg_exp.findall(ct))  #강의시간 추출하여 입력
         array.append(newrow.strip())
         
     return array
