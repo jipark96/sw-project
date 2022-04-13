@@ -1,6 +1,6 @@
-from cmath import nan
 import pandas as pd
 import os
+from filtering_dic import getFiltering_dic
 
 '''중첩 함수'''
 def makeColumn(university, df, col, keyword_list):
@@ -26,24 +26,22 @@ def readFolderPath(file_name):
   return file_list
     
 # file_list: 파일 이름이 담겨져 있는 리스트
-# filtering_dic: 각 컬럼에 대한 필터링 키워드가 담겨져있는 딕셔너리
-# 함수 설명: file_list와 filtering_dic를 인자로 사용하면,
+# 함수 설명: file_list를  인자로 사용하면,
 # 여러 개의 dataframe를 가지는 리스트를 반환한다.
-def readExcel(file_list, filtering_dic):
+def readExcel(file_list):
   univ_list = []  
   
   for file_name in file_list:
     university_info_list = file_name.split(' ')[0:2]
     university_name = university_info_list[0]
     university_cname = university_info_list[1]
-
-    if (university_name == '한국과학기술원'):
-      filtering_dic["과목구분"] = ["과목구분"]
-      filtering_dic["과정구분"] = ["과정구분"]
+    
+    filtering_dic = getFiltering_dic(university_name)
     
     column_name_list = list(filtering_dic.keys())
 
     university = pd.read_excel(io=f"./input/{file_name}", engine='openpyxl')
+    
     df = pd.DataFrame(data = [[university_name]], columns=["대학교명"], index=university.index)
     
     # df의 대학교 이름과 캠퍼스 이름 컬럼 생성하기
@@ -59,14 +57,10 @@ def readExcel(file_list, filtering_dic):
     # df의 컬럼 생성하기
     for col in column_name_list:
       makeColumn(university, df, col, filtering_dic[col])
-      
-    if (university_name == '한국과학기술원'):
-      del filtering_dic["과목구분"]
-      del filtering_dic["과정구분"]
-      
+
     univ_list.append(df)
 
-  return univ_list
+  return univ_list, filtering_dic
 
 
 def readExcel2(file_list):

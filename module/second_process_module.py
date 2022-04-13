@@ -3,7 +3,7 @@ import pandas as pd
 
 
 # 2차 가공 1번
-def dropTheBeat(df):
+def dropTimeAndLecture(df):
     df = df.drop(columns = ['강의시간', '강의실'])
     return df
 
@@ -16,7 +16,7 @@ def killDistri(df):
 
 # 2차 가공 3번
 # 교수명 여러개 분리 함수
-def professorOnlyOne(df):
+def splitProfessorOnlyOne(df):
     df['교수명'] = df['교수명'].str.split(',')
     df = df.explode('교수명')
     return df
