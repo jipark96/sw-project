@@ -1,5 +1,4 @@
 # 1차 가공 실행파일
-from re import sub
 from public_module import readExcel, readFolderPath, writeExcel
 from first_process_module import splitProfessor, del_blank, split_time, split_room
 from each_university_module import *

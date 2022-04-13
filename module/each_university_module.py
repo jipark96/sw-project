@@ -33,4 +33,5 @@ def subjectAndCourse(df):
     df = df.drop(df[df['과목구분'] == '선택(석/박사)'].index)
     df = df.drop(df[df['과목구분'] == '졸업연구'].index)
     df = df.drop(df[df['과정구분'] == '석/박사과정'].index)
+    df = df.reset_index(drop=True)
     return df

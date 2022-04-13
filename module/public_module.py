@@ -1,4 +1,3 @@
-from cmath import nan
 import pandas as pd
 import os
 
@@ -42,7 +41,7 @@ def readExcel(file_list):
         "과목구분": ['과목구분'],
         "과정구분": ['과정구분'],
         "강의고유번호": ['학수번호', '과목번호', '학정번호', '강좌코드'],
-        "강의명": ['과목명', '강좌명'],
+        "강의명": ['과목명', '강좌명'], 
         "교수명": ['교강사', '교수'],
         "학년":["학년"],
         "학점": ['학점'],
@@ -54,7 +53,7 @@ def readExcel(file_list):
       column_name_list = list(filtering_dic.keys())
     else:
       filtering_dic={
-        "강의고유번호": ['학수번호', '과목번호', '학정번호', '강좌코드'],
+        "강의고유번호": ['학수번호', '과목번호', '학정번호', '교과목', '강좌코드'],
         "강의명": ['과목명', '강좌명'],
         "교수명": ['교강사', '교수'],
         "학년":["학년"],
@@ -101,8 +100,8 @@ def readExcel2(file_list):
 
 # 파일 쓰기
 def writeExcel(univ, file_name, i):
-    univ_name = univ['대학교명'].to_list()[1]
-    univ_cname = univ['캠퍼스명'].to_list()[1]
+    univ_name = univ['대학교명'].to_list()[0]
+    univ_cname = univ['캠퍼스명'].to_list()[0]
     # print(univ_name, univ_cname)
     if len(univ_cname) == 0:
       writer = pd.ExcelWriter(f'./{file_name}/{univ_name} 22년 1학기 {i}차 가공 완료.xlsx', engine='xlsxwriter')
