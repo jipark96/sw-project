@@ -59,3 +59,31 @@ def split_room(df, Regular_Expression):
         array.append(newrow.strip())     
 
     return array
+
+# 고려대 강의명 수정 함수
+def editLectureName(df):
+    df['강의명'] = df['강의명'].str.split('(영강)').str.get(0)     # '(' 기준으로 나누고 첫번째만 추출
+    return df
+
+# 경희대 교수명 수정 함수
+def editKhuProfessorName(df):
+    df['교수명'] = df['교수명'].str.replace(pat=' / ..', repl='', regex=False)    # 교수명 수정
+    df['교수명'] = df['교수명'].str.replace(pat='..', repl='', regex=False)
+    df['교수명'] = df['교수명'].str.replace(pat=' / ', repl=',', regex=False)
+    return df
+
+
+# 한국과학기술원 교수명 수정 함수
+def editKaistProfessorName(df):
+    df['교수명'] = df['교수명'].str.replace(pat=' 외', repl='', regex=False)    # 교수명 수정
+    df['교수명'] = df['교수명'].str.replace(pat=' ,', repl=',', regex=False)
+    df['교수명'] = df['교수명'].str.replace(pat='담당교수미정', repl='', regex=False)
+    return df
+
+# 한국과학기술원 과목구분, 과정구분 삭제 함수
+def dropSubjectAndCourse(df):
+    df = df.drop(df[df['과목구분'] == '개별연구'].index)
+    df = df.drop(df[df['과목구분'] == '선택(석/박사)'].index)
+    df = df.drop(df[df['과목구분'] == '졸업연구'].index)
+    df = df.drop(df[df['과정구분'] == '석/박사과정'].index)
+    return df
