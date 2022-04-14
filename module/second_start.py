@@ -1,5 +1,5 @@
 # 2차 가공 실행파일
-from second_process_module import dropTimeAndLecture, killDistri, splitProfessorOnlyOne, dropDup, editLectureNumber
+from second_process_module import dropTimeAndLecture, splitProfessorOnlyOne, dropDup, editLectureNumber
 from public_module import readExcel2, readFolderPath, writeExcel
 
 # 1차 가공 엑셀에 대한 제목들 가지고오기
@@ -10,7 +10,6 @@ for df in univ_df_list:
 
   df = dropTimeAndLecture(df)
   df = editLectureNumber(df)
-  df = killDistri(df)
   df = splitProfessorOnlyOne(df)
   df = dropDup(df)
   

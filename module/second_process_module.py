@@ -30,6 +30,11 @@ def dropDup(df):
 # 강의고유번호 수정 함수
 # 모든 대학이 '-' 뒤 삭제라서 다 똑같음
 def editLectureNumber(df):
-    df['강의고유번호'] = df['강의고유번호'].str.split('-').str.get(0)     # '-' 기준으로 나누고 첫번째만 추출
+    if (df['대학교명'].to_list()[0] == '한양대학교'):
+        df['강의고유번호'] = df['강의고유번호'].str[::-1]
+        df['강의고유번호'] = df['강의고유번호'].str.split('-', 1).str.get(1)
+        df['강의고유번호'] = df['강의고유번호'].str[::-1]
+    else:
+        df['강의고유번호'] = df['강의고유번호'].str.split('-').str.get(0)
     return df
 
