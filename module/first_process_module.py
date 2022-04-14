@@ -53,7 +53,7 @@ def split_room(df, Regular_Expression):
     classroom = df["강의실"]
     df = df.fillna("")
     univ_name = df['대학교명'].to_list()[0]
-    reg_exp = re.compile(''+ Regular_Expression[univ_name][1]+"")
+    reg_exp = re.compile(Regular_Expression[univ_name][1])
 
     for t in range(0, int(classroom.size)):
         cl = str(df['강의실'][t])
