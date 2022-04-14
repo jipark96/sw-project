@@ -1,15 +1,6 @@
 import re
 
-# 데이터 프레임 불러오기 (모듈 붙이기)
-# df = pd.read_excel("./22년1학기강의데이터/경희대학교 국제캠퍼스22년 1학기 강의목록.xlsx", engine='openpyxl')
-
-# 전체 공백 제거 
-# ndf = df.apply(lambda df: df.str.replace(" ",""), axis = 1)
-
-# 교수명 분리
-# df = df.fillna("")
-#df명 수정
-
+#########교수명 분리##########
 
 def splitProfessor(df):
     df = df.fillna("")
@@ -29,11 +20,7 @@ def splitProfessor(df):
             array.append(row)   
     return array
 
-
-
-# 3번 replace를 활용한 공백 제거
-
-#df["강좌명강좌명"] 수정바람
+##########공백 제거##########
 
 def del_blank(df):
     df = df.fillna("")
@@ -45,20 +32,17 @@ def del_blank(df):
         array.append(newrow)
     return(array)
 
-##########1차 가공 2번##########
-
-#강의시간 추출하여 입력
+##########강의시간 컬럼에서 강의시간만 추출##########
 def split_time(df, Regular_Expression):
     array = []
     classtime = df["강의시간"]
     df = df.fillna("")
     univ_name = df['대학교명'].to_list()[0]
-    reg_exp = re.compile(Regular_Expression[univ_name][0])
+    reg_exp = re.compile(Regular_Expression[univ_name][0])  #re.compile(정규표현식[대학교명][0])
     
     for t in range(0, int(classtime.size)):
-        ct = str(df['강의시간'][t])
-        newrow = ''.join(reg_exp.findall(ct))  #강의시간 추출하여 입력
-        array.append(newrow)
+        newrow = Regular_Expression[univ_name][2].join(reg_exp.findall(str(df["강의시간"][t])))  #강의시간 추출하여 입력
+        array.append(newrow.strip())
         
     return array
 
@@ -68,17 +52,38 @@ def split_room(df, Regular_Expression):
     classroom = df["강의실"]
     df = df.fillna("")
     univ_name = df['대학교명'].to_list()[0]
-    reg_exp = re.compile(''+ Regular_Expression[univ_name][1]+"")
-    
+    reg_exp = re.compile(Regular_Expression[univ_name][1])
+
     for t in range(0, int(classroom.size)):
-        cl = str(df['강의실'][t])
-        newrow = re.sub(reg_exp, '', cl)   #강의시간 제거 후 입력
-        array.append(newrow)     
-        
+        newrow = re.sub(reg_exp, '', str(classroom[t]))   #강의시간 제거 후 입력
+        array.append(newrow.strip())     
+
     return array
 
+# 고려대 강의명 수정 함수
+def editLectureName(df):
+    df['강의명'] = df['강의명'].str.split('(영강)').str.get(0)     # '(' 기준으로 나누고 첫번째만 추출
+    return df
+
+# 경희대 교수명 수정 함수
+def editKhuProfessorName(df):
+    df['교수명'] = df['교수명'].str.replace(pat=' / ..', repl='', regex=False)    # 교수명 수정
+    df['교수명'] = df['교수명'].str.replace(pat='..', repl='', regex=False)
+    df['교수명'] = df['교수명'].str.replace(pat=' / ', repl=',', regex=False)
+    return df
 
 
-# df.to_excel("professor.xlsx", sheet_name="professor", index=False)
+# 한국과학기술원 교수명 수정 함수
+def editKaistProfessorName(df):
+    df['교수명'] = df['교수명'].str.replace(pat=' 외', repl='', regex=False)    # 교수명 수정
+    df['교수명'] = df['교수명'].str.replace(pat=' ,', repl=',', regex=False)
+    df['교수명'] = df['교수명'].str.replace(pat='담당교수미정', repl='', regex=False)
+    return df
 
-
+# 한국과학기술원 과목구분, 과정구분 삭제 함수
+def dropSubjectAndCourse(df):
+    df = df.drop(df[df['과목구분'] == '개별연구'].index)
+    df = df.drop(df[df['과목구분'] == '선택(석/박사)'].index)
+    df = df.drop(df[df['과목구분'] == '졸업연구'].index)
+    df = df.drop(df[df['과정구분'] == '석/박사과정'].index)
+    return df

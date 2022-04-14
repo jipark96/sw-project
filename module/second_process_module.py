@@ -3,7 +3,7 @@ import pandas as pd
 
 
 # 2차 가공 1번
-def dropTheBeat(df):
+def dropTimeAndLecture(df):
     df = df.drop(columns = ['강의시간', '강의실'])
     return df
 
@@ -16,7 +16,7 @@ def killDistri(df):
 
 # 2차 가공 3번
 # 교수명 여러개 분리 함수
-def professorOnlyOne(df):
+def splitProfessorOnlyOne(df):
     df['교수명'] = df['교수명'].str.split(',')
     df = df.explode('교수명')
     return df
@@ -27,4 +27,9 @@ def dropDup(df):
     df = df.drop_duplicates(['강의고유번호', '강의명', '교수명'])
     return df
 
+# 강의고유번호 수정 함수
+# 모든 대학이 '-' 뒤 삭제라서 다 똑같음
+def editLectureNumber(df):
+    df['강의고유번호'] = df['강의고유번호'].str.split('-').str.get(0)     # '-' 기준으로 나누고 첫번째만 추출
+    return df
 
