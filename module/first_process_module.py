@@ -41,7 +41,7 @@ def split_time(df, Regular_Expression):
     reg_exp = re.compile(Regular_Expression[univ_name][0])  #re.compile(정규표현식[대학교명][0])
     
     for t in range(0, int(classtime.size)):
-        newrow = Regular_Expression[univ_name][2].join(reg_exp.findall(str(df['강의시간'][t])))  #강의시간 추출하여 입력
+        newrow = Regular_Expression[univ_name][2].join(reg_exp.findall(str(classtime[t])))  #강의시간 추출하여 입력
         array.append(newrow.strip())
         
     return array
@@ -55,7 +55,7 @@ def split_room(df, Regular_Expression):
     reg_exp = re.compile(Regular_Expression[univ_name][1])
 
     for t in range(0, int(classroom.size)):
-        newrow = re.sub(reg_exp, '', str(df['강의실'][t]))   #강의시간 제거 후 입력
+        newrow = re.sub(reg_exp, '', str(classroom[t]))   #강의시간 제거 후 입력
         array.append(newrow.strip())     
 
     return array
