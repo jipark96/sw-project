@@ -4,7 +4,7 @@ from public_module import readExcel, readFolderPath, writeExcel
 from first_process_module import splitProfessor, del_blank, split_time, split_room
 from each_university_module import editLectureNumber, editKhuProfessorName, editLectureName, editKaistProfessorName, dropSubjectAndCourse
 from regular_expression import regular_expression
-
+import pandas as pd
 
 # 원본엑셀에 대한 제목들 가지고오기
 file_list = readFolderPath("input")
@@ -24,8 +24,9 @@ for df in univ_df_list:
   elif (df["대학교명"].to_list()[1] == '한국과학기술원'):
     df = editKaistProfessorName(df)
     df = dropSubjectAndCourse(df)
-
-  df = df.dropna(subset=list(filtering_dic.keys()))
+  df = df.dropna(axis= 0, subset=["강의고유번호"], how="any")
+  
   df = df.reset_index(drop=True)
   df.index=df.index + 1
+  
   writeExcel(df, "1차_가공", "22년 1학기 1차")
