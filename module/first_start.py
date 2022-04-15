@@ -5,14 +5,15 @@ from regular_expression import regular_expression
 
 # 원본엑셀에 대한 제목들 가지고오기
 file_list = readFolderPath("input")
+
 # 원본엑셀에 대해 10개의 dataframe 리스트 가져오기    
-univ_df_list, filtering_dic = readExcel(file_list)
+univ_df_list = readExcel(file_list)
+
 for df in univ_df_list:
   df["교수명"] = splitProfessor(df)
   df["강의명"] = del_blank(df)
   df["강의실"] = split_room(df, regular_expression)
   df["강의시간"] = split_time(df, regular_expression)
-  # df = editLectureNumber(df)
   
   if (df["대학교명"].to_list()[1] == '경희대학교'):
     df = editKhuProfessorName(df)

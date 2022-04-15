@@ -31,23 +31,12 @@
         - public_module.py: 공통 모듈
         - regular_expression.py: 정규표현식 모음 파일
         - filtering_dic.py: 대학교 컬럼 필터링하기 위한 딕셔너리 파일
-        - each_university_module.py: 각각의 대학교에 대한 모듈 파일 
 ---
 ## 설치해야하는 패키지
 - openpyxl
 - pandas
 - xlsxwriter
 
-
-## 교수명 분류 
-- 경희대 국제 : /로 구분 , (영어교수 공백)
-- 경희대 서울 : /
-- 고려대 서울 : ,
-- 고려대 세종 : ,
-- 국민대 : 분리됨 ,(영어교수 공백)
-- 성균관대 : 분리됨 
-- 연세대 미래 : ,
-- 연세대 신촌 : ,
-- 카이스트 : , 
-- 한양대 : 분리됨
+## 사용법
+[노션에서 보기](https://gunbro.notion.site/1-2-fa0916730f5d4b76923823ea14a2c2c4)
 

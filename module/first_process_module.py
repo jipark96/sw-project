@@ -80,7 +80,7 @@ def editKaistProfessorName(df):
     df['교수명'] = df['교수명'].str.replace(pat='담당교수미정', repl='', regex=False)
     return df
 
-# 한국과학기술원 과목구분, 과정구분 삭제 함수
+# 한국과학기술원 과목구분, 과정구분 필터링 함수
 def dropSubjectAndCourse(df):
     df = df.drop(df[df['이수구분'] == '개별연구'].index)
     df = df.drop(df[df['이수구분'] == '선택(석/박사)'].index)
